@@ -1,6 +1,8 @@
 package io.itamarc.mymovieslistapi.model;
 
 import javax.persistence.*;
+
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +11,12 @@ import java.util.Set;
 public class MoviesList extends BaseEntity {
     @Column(name = "title")
     private String title;
+
+    @Column(name = "created")
+    private LocalDate created;
+
+    @Column(name = "updated")
+    private LocalDate updated;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -23,6 +31,22 @@ public class MoviesList extends BaseEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
+    }
+
+    public LocalDate getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDate updated) {
+        this.updated = updated;
     }
 
     public User getUser() {

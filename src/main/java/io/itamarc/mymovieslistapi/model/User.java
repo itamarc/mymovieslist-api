@@ -1,5 +1,6 @@
 package io.itamarc.mymovieslistapi.model;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,9 @@ public class User extends BaseEntity {
 
     @Column(name = "avatar_url")
     private String avatarUrl;
+
+    @Column(name = "registered")
+    private LocalDate registered;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<MoviesList> moviesLists = new HashSet<>();
@@ -57,6 +61,14 @@ public class User extends BaseEntity {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public LocalDate getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(LocalDate registered) {
+        this.registered = registered;
     }
 
     public Set<MoviesList> getMoviesLists() {
