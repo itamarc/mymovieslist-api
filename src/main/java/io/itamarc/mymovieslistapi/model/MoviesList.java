@@ -22,8 +22,8 @@ public class MoviesList extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany()
-    private Set<MovieRank> movies = new HashSet<>();
+    @ManyToMany(mappedBy = "moviesLists", fetch = FetchType.LAZY)
+    private Set<MovieRank> movieRanks = new HashSet<>();
 
     public String getTitle() {
         return title;
@@ -57,11 +57,18 @@ public class MoviesList extends BaseEntity {
         this.user = user;
     }
 
-    public Set<MovieRank> getMovies() {
-        return movies;
+    public void addMovieRank(MovieRank movieRank) {
+        this.movieRanks.add(movieRank);
+        if (!movieRank.getMoviesLists().contains(this)) {
+            movieRank.addMoviesList(this);
+        }
     }
 
-    public void setMovies(Set<MovieRank> movies) {
-        this.movies = movies;
+    public Set<MovieRank> getMovieRanks() {
+        return movieRanks;
+    }
+
+    public void setMovieRanks(Set<MovieRank> movieRanks) {
+        this.movieRanks = movieRanks;
     }
 }

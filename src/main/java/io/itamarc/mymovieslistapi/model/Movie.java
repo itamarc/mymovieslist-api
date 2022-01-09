@@ -1,13 +1,23 @@
 package io.itamarc.mymovieslistapi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "movies")
 public class Movie extends BaseEntity {
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "description")
     private String description;
-    private Short year;
-    private Byte[] image;
+
+    @Column(name = "year")
+    private Integer year;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     public String getTitle() {
         return title;
@@ -25,19 +35,19 @@ public class Movie extends BaseEntity {
         this.description = description;
     }
 
-    public Short getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(Short year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public Byte[] getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(Byte[] image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

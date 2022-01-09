@@ -10,8 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "users")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User extends BaseEntity {
     @Column(name = "name")
     private String name;
@@ -22,8 +26,8 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "avatar_url")
-    private String avatarUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "registered")
     private LocalDate registered;
@@ -55,12 +59,12 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public LocalDate getRegistered() {

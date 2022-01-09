@@ -3,8 +3,14 @@ package io.itamarc.mymovieslistapi.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,17 +20,23 @@ import javax.persistence.Table;
 public class MovieRank extends BaseEntity {
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany
+    @JoinTable(name = "movie_ranks_movies_lists", joinColumns = @JoinColumn(name = "movie_rank_id"),
+    inverseJoinColumns = @JoinColumn(name = "movies_list_id"))
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Set<MoviesList> moviesLists = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    private char rank;
+    @Column(name = "rank")
+    private Integer rank;
 
+    @Column(name = "watched")
     private boolean watched;
 
     public User getUser() {
@@ -35,11 +47,16 @@ public class MovieRank extends BaseEntity {
         this.user = user;
     }
 
-    public Set<MoviesList> getMoviesList() {
+    public void addMoviesList(MoviesList moviesList) {
+        this.moviesLists.add(moviesList);
+        moviesList.addMovieRank(this);
+    }
+
+    public Set<MoviesList> getMoviesLists() {
         return moviesLists;
     }
 
-    public void setMoviesList(Set<MoviesList> moviesLists) {
+    public void setMoviesLists(Set<MoviesList> moviesLists) {
         this.moviesLists = moviesLists;
     }
 
@@ -51,11 +68,11 @@ public class MovieRank extends BaseEntity {
         this.movie = movie;
     }
 
-    public char getRank() {
+    public Integer getRank() {
         return rank;
     }
 
-    public void setRank(char rank) {
+    public void setRank(Integer rank) {
         this.rank = rank;
     }
 
