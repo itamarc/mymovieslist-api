@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.itamarc.mymovieslistapi.model.MoviesList;
 import io.itamarc.mymovieslistapi.repositories.MoviesListRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 public class MoviesListController {
     MoviesListRepository moviesListRepository;
 
@@ -17,6 +19,7 @@ public class MoviesListController {
 
     @GetMapping("/moviesList/{id}")
     public MoviesList getMoviesListById(@PathVariable Long id) {
+        log.debug("Mapping: Getting moviesList by id: " + id);
         return moviesListRepository.findById(id).orElse(null);
     }
 

@@ -13,7 +13,9 @@ import io.itamarc.mymovieslistapi.repositories.MovieRankRepository;
 import io.itamarc.mymovieslistapi.repositories.MovieRepository;
 import io.itamarc.mymovieslistapi.repositories.MoviesListRepository;
 import io.itamarc.mymovieslistapi.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class DataLoader implements CommandLineRunner {
     UserRepository userRepository;
@@ -32,7 +34,9 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0) {
+            log.debug("Loading data in bootstrap...");
             loadData();
+            log.debug("Data fully loaded in bootstrap.");
         }
     }
 

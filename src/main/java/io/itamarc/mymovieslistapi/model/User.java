@@ -13,7 +13,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
+@Data
+@EqualsAndHashCode(callSuper = true, exclude = { "moviesLists" })
 @Table(name = "users")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User extends BaseEntity {
@@ -34,52 +39,4 @@ public class User extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<MoviesList> moviesLists = new HashSet<>();
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public LocalDate getRegistered() {
-        return registered;
-    }
-
-    public void setRegistered(LocalDate registered) {
-        this.registered = registered;
-    }
-
-    public Set<MoviesList> getMoviesLists() {
-        return moviesLists;
-    }
-
-    public void setMoviesLists(Set<MoviesList> moviesLists) {
-        this.moviesLists = moviesLists;
-    }
 }
