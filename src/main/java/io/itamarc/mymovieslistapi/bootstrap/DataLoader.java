@@ -15,6 +15,7 @@ import io.itamarc.mymovieslistapi.repositories.MoviesListRepository;
 import io.itamarc.mymovieslistapi.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings(value = {"unused"})
 @Slf4j
 @Component
 public class DataLoader implements CommandLineRunner {
