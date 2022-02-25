@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.repositories.UserRepository;
+import io.itamarc.mymovieslistapi.transfer.UserMoviesListPayload;
+import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
 @Service  
 public class UserServiceImpl implements UserService {
@@ -24,7 +26,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserPayload findById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            UserPayload userPayload = new UserPayload();
+            userPayload.setId(user.getId());
+            userPayload.setName(user.getName());
+            userPayload.setEmail(user.getEmail());
+            userPayload.setPassword(user.getPassword());
+            userPayload.setImageUrl(user.getImageUrl());
+            userPayload.setRegistered(user.getRegistered());
+            if (user.getMoviesLists() != null) {
+                user.getMoviesLists().forEach(
+                    moviesList -> userPayload.getMoviesLists().add(
+                        UserMoviesListPayload.builder()
+                        .id(moviesList.getId())
+                        .title(moviesList.getTitle())
+                        .created(moviesList.getCreated())
+                        .updated(moviesList.getUpdated())
+                        .build()));
+            }
+            return userPayload;
+        } else {
+            return null;
+        }
     }
 }

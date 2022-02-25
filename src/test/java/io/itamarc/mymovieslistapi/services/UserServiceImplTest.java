@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.repositories.UserRepository;
+import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
 public class UserServiceImplTest {
     private UserService userService;
@@ -46,7 +47,7 @@ public class UserServiceImplTest {
 
         // when
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
-        User foundUser = userService.findById(1L);
+        UserPayload foundUser = userService.findById(1L);
 
         // then
         assertEquals(1L, foundUser.getId());

@@ -72,6 +72,13 @@ public class DataLoader implements CommandLineRunner {
         moviesList2.setUpdated(LocalDate.now());
         MoviesList savedMoviesList2 = moviesListRepository.save(moviesList2);
 
+        MoviesList moviesList3 = new MoviesList();
+        moviesList3.setTitle("War Movies");
+        moviesList3.setUser(savedUser1);
+        moviesList3.setCreated(LocalDate.now());
+        moviesList3.setUpdated(LocalDate.now());
+        MoviesList savedMoviesList3 = moviesListRepository.save(moviesList3);
+
         Movie movie0 = new Movie();
         movie0.setTitle("The Matrix");
         movie0.setDescription("A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.");
@@ -200,5 +207,21 @@ public class DataLoader implements CommandLineRunner {
         movieRank21.setUser(savedUser2);
         movieRank21.addMoviesList(savedMoviesList2);
         MovieRank savedMovieRank21 = movieRankRepository.save(movieRank21);
+
+        MovieRank movieRank31 = new MovieRank();
+        movieRank31.setMovie(savedMovie0);
+        movieRank31.setRank(10);
+        movieRank31.setWatched(true);
+        movieRank31.setUser(savedUser1);
+        movieRank31.addMoviesList(savedMoviesList3);
+        MovieRank savedMovieRank31 = movieRankRepository.save(movieRank31);
+
+        MovieRank movieRank32 = new MovieRank();
+        movieRank31.setMovie(savedMovie7);
+        movieRank31.setRank(10);
+        movieRank31.setWatched(true);
+        movieRank31.setUser(savedUser1);
+        movieRank31.addMoviesList(savedMoviesList3);
+        MovieRank savedMovieRank32 = movieRankRepository.save(movieRank31);
     }
 }
