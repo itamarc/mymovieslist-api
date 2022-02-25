@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.itamarc.mymovieslistapi.model.MoviesList;
 import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.repositories.UserRepository;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
@@ -45,6 +46,11 @@ public class UserServiceImplTest {
         user.setId(1L);
         user.setName(name);
 
+        MoviesList moviesList = new MoviesList();
+        moviesList.setId(1L);
+        moviesList.setTitle("Test Movies List One");
+        user.getMoviesLists().add(moviesList);
+
         // when
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         UserPayload foundUser = userService.findById(1L);
@@ -52,6 +58,7 @@ public class UserServiceImplTest {
         // then
         assertEquals(1L, foundUser.getId());
         assertEquals(name, foundUser.getName());
+        assertEquals(1, foundUser.getMoviesLists().size());
         verify(userRepository, times(1)).findById(anyLong());
     }
 }
