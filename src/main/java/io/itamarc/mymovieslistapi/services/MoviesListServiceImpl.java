@@ -5,11 +5,13 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import io.itamarc.mymovieslistapi.model.MovieRank;
 import io.itamarc.mymovieslistapi.model.MoviesList;
 import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.repositories.MoviesListRepository;
+import io.itamarc.mymovieslistapi.transfer.MoviePayload;
 import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
-import io.itamarc.mymovieslistapi.transfer.MoviesListUserPayload;
+import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
 @Service
 public class MoviesListServiceImpl implements MoviesListService {
@@ -49,14 +51,33 @@ public class MoviesListServiceImpl implements MoviesListService {
                     .created(moviesList.getCreated())
                     .updated(moviesList.getUpdated())
                     .user(userToUserPayload(moviesList.getUser()))
+                    .movies(moviesToMoviesPayload(moviesList.getMovieRanks()))
                     .build();
         } else {
             return null;
         }
     }
 
-    private MoviesListUserPayload userToUserPayload(User user) {
-        return MoviesListUserPayload.builder()
+    private Set<MoviePayload> moviesToMoviesPayload(Set<MovieRank> movieRanks) {
+        Set<MoviePayload> movies = new HashSet<>();
+        movieRanks.forEach(movieRank -> movies.add(movieRankToMoviePayload(movieRank)));
+        return movies;
+    }
+
+    private MoviePayload movieRankToMoviePayload(MovieRank movieRank) {
+        return MoviePayload.builder()
+            .id(movieRank.getMovie().getId())
+            .title(movieRank.getMovie().getTitle())
+            .description(movieRank.getMovie().getDescription())
+            .year(movieRank.getMovie().getYear())
+            .imageUrl(movieRank.getMovie().getImageUrl())
+            .rank(movieRank.getRank())
+            .watched(movieRank.isWatched())
+            .build();
+    }
+
+    private UserPayload userToUserPayload(User user) {
+        return UserPayload.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())

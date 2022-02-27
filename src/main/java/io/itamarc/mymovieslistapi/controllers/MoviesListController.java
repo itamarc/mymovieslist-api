@@ -2,6 +2,8 @@ package io.itamarc.mymovieslistapi.controllers;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.itamarc.mymovieslistapi.services.MoviesListService;
 import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
+import io.itamarc.mymovieslistapi.transfer.MoviesListViews;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -30,8 +33,16 @@ public class MoviesListController {
     }
 
     @GetMapping("/movies-lists/{id}")
+    @JsonView(MoviesListViews.MoviesListBasic.class)
     public MoviesListPayload getMoviesListById(@PathVariable Long id) {
         log.debug("Mapping: Getting moviesList by id: " + id);
+        return moviesListsService.findById(id);
+    }
+
+    @GetMapping("/movies-lists/{id}/movies")
+    @JsonView(MoviesListViews.MoviesListWithMovies.class)
+    public MoviesListPayload getMoviesListWithMoviesById(@PathVariable Long id) {
+        log.debug("Mapping: Getting moviesList with movies by id: " + id);
         return moviesListsService.findById(id);
     }
 }
