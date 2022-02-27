@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import io.itamarc.mymovieslistapi.model.MoviesList;
 import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.repositories.MoviesListRepository;
+import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
 
 public class MoviesListServiceImplTest {
     private MoviesListService moviesListService;
@@ -47,11 +48,13 @@ public class MoviesListServiceImplTest {
         moviesList.setTitle(title);
         User user = new User();
         user.setId(2L);
+        user.setName("Itamar");
+        user.setEmail("itamarc@gmail.com");
         moviesList.setUser(user);
 
         // when
         when(moviesListRepository.findById(anyLong())).thenReturn(Optional.of(moviesList));
-        MoviesList foundList = moviesListService.findById(1L);
+        MoviesListPayload foundList = moviesListService.findById(1L);
 
         // then
         assertNotNull(foundList);

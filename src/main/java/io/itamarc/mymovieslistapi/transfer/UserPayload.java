@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -14,6 +16,7 @@ public class UserPayload {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String imageUrl;

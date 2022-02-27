@@ -2,10 +2,10 @@ package io.itamarc.mymovieslistapi.services;
 
 import java.util.Set;
 
-import io.itamarc.mymovieslistapi.model.MoviesList;
+import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
 
 public interface MoviesListService {
-    public Set<MoviesList> getMoviesLists(int page);
+    public Set<MoviesListPayload> getMoviesLists(int page);
 
-    public MoviesList findById(Long id);
+    public MoviesListPayload findById(Long id);
 }
