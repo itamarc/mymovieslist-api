@@ -19,9 +19,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<User> findAll() {
-        Set<User> users = new HashSet<>();
-        userRepository.findAll().forEach(user -> users.add(user));
+    public Set<UserPayload> findAll() {
+        Set<UserPayload> users = new HashSet<>();
+        userRepository.findAll().forEach(user -> users.add(userToUserPayload(user)));
         return users;
     }
 
@@ -29,26 +29,31 @@ public class UserServiceImpl implements UserService {
     public UserPayload findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
-            UserPayload userPayload = UserPayload.builder().build();
-            userPayload.setId(user.getId());
-            userPayload.setName(user.getName());
-            userPayload.setEmail(user.getEmail());
-            userPayload.setPassword(user.getPassword());
-            userPayload.setImageUrl(user.getImageUrl());
-            userPayload.setRegistered(user.getRegistered());
-            if (user.getMoviesLists() != null) {
-                user.getMoviesLists().forEach(
-                    moviesList -> userPayload.getMoviesLists().add(
-                        MoviesListPayload.builder()
-                        .id(moviesList.getId())
-                        .title(moviesList.getTitle())
-                        .created(moviesList.getCreated())
-                        .updated(moviesList.getUpdated())
-                        .build()));
-            }
-            return userPayload;
+            return userToUserPayload(user);
         } else {
             return null;
         }
+    }
+
+    private UserPayload userToUserPayload(User user) {
+        UserPayload userPayload = UserPayload.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .imageUrl(user.getImageUrl())
+                .registered(user.getRegistered())
+                .build();
+                if (user.getMoviesLists() != null) {
+                    user.getMoviesLists().forEach(
+                        moviesList -> userPayload.getMoviesLists().add(
+                            MoviesListPayload.builder()
+                            .id(moviesList.getId())
+                            .title(moviesList.getTitle())
+                            .created(moviesList.getCreated())
+                            .updated(moviesList.getUpdated())
+                            .build()));
+                }
+        return userPayload;
     }
 }

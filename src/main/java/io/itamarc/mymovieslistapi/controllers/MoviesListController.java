@@ -24,6 +24,7 @@ public class MoviesListController {
     }
 
     @GetMapping("/movies-lists")
+    @JsonView(MoviesListViews.MoviesListBasic.class)
     public Set<MoviesListPayload> getMoviesLists(@RequestParam(required = false) Integer page) {
         log.debug("Mapping: Getting moviesLists (page=" + page + ")");
         if (page == null || page < 1) {
