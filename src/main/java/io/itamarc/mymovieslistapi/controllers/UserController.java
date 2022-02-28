@@ -4,11 +4,15 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.itamarc.mymovieslistapi.exception.ResourceNotFoundException;
+import io.itamarc.mymovieslistapi.security.CurrentUser;
+import io.itamarc.mymovieslistapi.security.UserPrincipal;
 import io.itamarc.mymovieslistapi.services.UserService;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
 import io.itamarc.mymovieslistapi.transfer.UserViews;
@@ -35,5 +39,15 @@ public class UserController {
     public @ResponseBody UserPayload getUserPayloadById(@PathVariable Long id) {
         log.debug("Mapping: Getting user payload by id: " + id);
         return userService.findById(id);
+    }
+
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public UserPayload getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        UserPayload userPayload = userService.findById(userPrincipal.getId());
+        if (userPayload == null) {
+            throw new ResourceNotFoundException("User", "id", userPrincipal.getId());
+        }
+        return userPayload;
     }
 }

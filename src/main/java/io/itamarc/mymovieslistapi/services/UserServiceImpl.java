@@ -56,4 +56,27 @@ public class UserServiceImpl implements UserService {
                 }
         return userPayload;
     }
+
+    private User userPayloadToUser(UserPayload userPayload) {
+        User user = new User();
+        user.setId(userPayload.getId());
+        user.setName(userPayload.getName());
+        user.setEmail(userPayload.getEmail());
+        user.setPassword(userPayload.getPassword());
+        user.setImageUrl(userPayload.getImageUrl());
+        user.setRegistered(userPayload.getRegistered());
+        user.setProvider(userPayload.getProvider());
+        return user;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public UserPayload save(UserPayload user) {
+        User userSaved = userRepository.save(userPayloadToUser(user));
+        return userToUserPayload(userSaved);
+    }
 }

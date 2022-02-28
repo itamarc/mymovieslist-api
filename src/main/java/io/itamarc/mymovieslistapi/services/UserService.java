@@ -8,4 +8,8 @@ public interface UserService {
     public Set<UserPayload> findAll();
 
     public UserPayload findById(Long id);
+
+    public boolean existsByEmail(String email);
+
+    public UserPayload save(UserPayload user);
 }

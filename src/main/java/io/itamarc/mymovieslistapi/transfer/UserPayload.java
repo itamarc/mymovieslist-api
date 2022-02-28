@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import io.itamarc.mymovieslistapi.model.AuthProvider;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,7 +22,6 @@ public class UserPayload {
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
     private String email;
 
-    @JsonView(UserViews.UserRegister.class)
     private String password;
 
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
@@ -29,6 +29,10 @@ public class UserPayload {
 
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
     private LocalDate registered;
+
+    private AuthProvider provider;
+
+    private String providerId;
 
     @JsonView(UserViews.UserWithMoviesLists.class)
     @Builder.Default

@@ -3,8 +3,10 @@ package io.itamarc.mymovieslistapi.bootstrap;
 import java.time.LocalDate;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import io.itamarc.mymovieslistapi.model.AuthProvider;
 import io.itamarc.mymovieslistapi.model.Movie;
 import io.itamarc.mymovieslistapi.model.MovieRank;
 import io.itamarc.mymovieslistapi.model.MoviesList;
@@ -23,13 +25,16 @@ public class DataLoader implements CommandLineRunner {
     MoviesListRepository moviesListRepository;
     MovieRepository movieRepository;
     MovieRankRepository movieRankRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DataLoader(UserRepository userRepository, MoviesListRepository moviesListRepository,
-            MovieRepository movieRepository, MovieRankRepository movieRankRepository) {
+            MovieRepository movieRepository, MovieRankRepository movieRankRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.moviesListRepository = moviesListRepository;
         this.movieRepository = movieRepository;
         this.movieRankRepository = movieRankRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,17 +50,21 @@ public class DataLoader implements CommandLineRunner {
         User user1 = new User();
         user1.setName("Itamar");
         user1.setEmail("itamarc@gmail.com");
-        user1.setPassword("123456");
+        user1.setPassword(passwordEncoder.encode("123456"));
         user1.setImageUrl("https://avatars.githubusercontent.com/u/19577272?v=4");
         user1.setRegistered(LocalDate.now());
+        user1.setProvider(AuthProvider.local);
+        user1.setEmailVerified(true);
         User savedUser1 = userRepository.save(user1);
 
         User user2 = new User();
         user2.setName("John");
         user2.setEmail("john.constantine@realhell.com");
-        user2.setPassword("123456");
+        user2.setPassword(passwordEncoder.encode("123456"));
         user2.setImageUrl("https://www.superherodb.com/pictures2/portraits/10/100/718.jpg");
         user2.setRegistered(LocalDate.now());
+        user2.setProvider(AuthProvider.local);
+        user2.setEmailVerified(true);
         User savedUser2 = userRepository.save(user2);
 
         MoviesList moviesList1 = new MoviesList();
