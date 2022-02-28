@@ -1,4 +1,4 @@
-package io.itamarc.mymovieslistapi;
+package io.itamarc.mymovieslistapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

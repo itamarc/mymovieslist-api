@@ -1,11 +1,11 @@
-package io.itamarc.mymovieslistapi;
+package io.itamarc.mymovieslistapi.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // This is a configuration to be used only on development environment.
     // TODO: Remove this configuration when deploying on production environment.
