@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.services.UserService;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
 import io.itamarc.mymovieslistapi.transfer.UserViews;
