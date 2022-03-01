@@ -43,6 +43,7 @@ public class UserController {
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
+    @JsonView(UserViews.UserBasic.class)
     public UserPayload getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         UserPayload userPayload = userService.findById(userPrincipal.getId());
         if (userPayload == null) {

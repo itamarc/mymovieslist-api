@@ -56,8 +56,9 @@ public class TokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
+            SecretKey secretKey = Keys.hmacShaKeyFor(appProperties.getAuth().getTokenSecret().getBytes());
             Jwts.parserBuilder()
-                .setSigningKey(appProperties.getAuth().getTokenSecret())
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(authToken);
             return true;
