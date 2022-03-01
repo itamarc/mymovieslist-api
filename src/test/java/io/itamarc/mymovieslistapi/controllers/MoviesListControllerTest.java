@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,8 @@ public class MoviesListControllerTest {
     MoviesListController moviesListController;
 
     MockMvc mockMvc;
+
+    ObjectMapper mapper;
 
     UserPayload user;
     MoviePayload movie1;
@@ -49,11 +53,11 @@ public class MoviesListControllerTest {
                 .user(user)
                 .build();
         moviesListPayload.getMovies().add(movie1);
+        mapper = JsonMapper.builder().disable(MapperFeature.DEFAULT_VIEW_INCLUSION).build();
     }
 
     @Test
     public void getMoviesListByIdJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         String result = mapper.writerWithView(MoviesListViews.MoviesListWithMovies.class)
             .writeValueAsString(moviesListPayload);
 
@@ -67,7 +71,6 @@ public class MoviesListControllerTest {
 
     @Test
     public void getMoviesListWithMoviesByIdJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         String result = mapper.writerWithView(MoviesListViews.MoviesListBasic.class)
             .writeValueAsString(moviesListPayload);
 

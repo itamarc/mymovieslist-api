@@ -28,6 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasRole('USER')")
     @JsonView(UserViews.UserWithMoviesLists.class)
     public Set<UserPayload> getAllUsers() {
         log.debug("Mapping: Getting all users.");
@@ -35,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('USER')")
     @JsonView(UserViews.UserWithMoviesLists.class)
     public @ResponseBody UserPayload getUserPayloadById(@PathVariable Long id) {
         log.debug("Mapping: Getting user payload by id: " + id);

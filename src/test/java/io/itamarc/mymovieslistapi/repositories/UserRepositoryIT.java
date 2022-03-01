@@ -12,8 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import io.itamarc.mymovieslistapi.model.AuthProvider;
 import io.itamarc.mymovieslistapi.model.User;
 
 @ExtendWith(SpringExtension.class)
@@ -25,16 +27,18 @@ public class UserRepositoryIT {
     static User user;
     static final Long USER_ID = 1L;
     static final String NAME = "Itamar Carvalho";
+    static final String EMAIL = "itamarc@gmail.com";
     static final LocalDate REGISTERED = LocalDate.now();
 
-
-    
     @BeforeAll
     static void beforeClass() {
         user = new User();
         user.setId(USER_ID);
         user.setName(NAME);
+        user.setEmail(EMAIL);
+        user.setEmailVerified(true);
         user.setRegistered(REGISTERED);
+        user.setProvider(AuthProvider.local);
     }
     @BeforeEach
     void setUp() {
