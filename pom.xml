@@ -135,6 +135,25 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- to 'delombok' the project:
+				 save the generated source code in target/generated-sources/delombok -->
+			<!-- <plugin>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-maven-plugin</artifactId>
+				<version>1.18.20.0</version>
+				<executions>
+				  <execution>
+					<phase>generate-sources</phase>
+					<goals>
+					  <goal>delombok</goal>
+					</goals>
+					<configuration>
+						<addOutputDirectory>false</addOutputDirectory>
+						<sourceDirectory>src/main/java</sourceDirectory>
+					</configuration>
+				  </execution>
+				</executions>
+			  </plugin> -->
 		</plugins>
 	</build>
 
