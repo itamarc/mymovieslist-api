@@ -2,10 +2,14 @@ package io.itamarc.mymovieslistapi.transfer;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class MoviePayload {
     @JsonView(MoviesListViews.MoviesListWithMovies.class)
