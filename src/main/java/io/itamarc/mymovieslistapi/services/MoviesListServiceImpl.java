@@ -1,6 +1,6 @@
 package io.itamarc.mymovieslistapi.services;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class MoviesListServiceImpl implements MoviesListService {
     }
 
     public Set<MoviesListPayload> getMoviesLists(int page) {
-        Set<MoviesListPayload> moviesLists = new HashSet<>();
+        Set<MoviesListPayload> moviesLists = new LinkedHashSet<>();
         if (page < 1) {
             page = 1;
         }
@@ -39,27 +39,21 @@ public class MoviesListServiceImpl implements MoviesListService {
             .created(moviesList.getCreated())
             .updated(moviesList.getUpdated())
             .user(userToUserPayload(moviesList.getUser()))
+            .movies(moviesToMoviesPayload(moviesList.getMovieRanks()))
             .build();
 }
 
     public MoviesListPayload findById(Long id) {
         MoviesList moviesList = moviesListRepository.findById(id).orElse(null);
         if (moviesList != null) {
-            return MoviesListPayload.builder()
-                    .id(moviesList.getId())
-                    .title(moviesList.getTitle())
-                    .created(moviesList.getCreated())
-                    .updated(moviesList.getUpdated())
-                    .user(userToUserPayload(moviesList.getUser()))
-                    .movies(moviesToMoviesPayload(moviesList.getMovieRanks()))
-                    .build();
+            return moviesListToMoviesListPayload(moviesList);
         } else {
             return null;
         }
     }
 
     private Set<MoviePayload> moviesToMoviesPayload(Set<MovieRank> movieRanks) {
-        Set<MoviePayload> movies = new HashSet<>();
+        Set<MoviePayload> movies = new LinkedHashSet<>();
         movieRanks.forEach(movieRank -> movies.add(movieRankToMoviePayload(movieRank)));
         return movies;
     }

@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = { "moviesLists" })
 @Table(name = "movie_ranks")
 public class MovieRank extends BaseEntity {
 
@@ -46,6 +46,8 @@ public class MovieRank extends BaseEntity {
 
     public void addMoviesList(MoviesList moviesList) {
         this.moviesLists.add(moviesList);
-        moviesList.addMovieRank(this);
+        if (!moviesList.getMovieRanks().contains(this)) {
+            moviesList.addMovieRank(this);
+        }
     }
 }

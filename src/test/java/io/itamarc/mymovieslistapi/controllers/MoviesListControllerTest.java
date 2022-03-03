@@ -1,44 +1,53 @@
 package io.itamarc.mymovieslistapi.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import io.itamarc.mymovieslistapi.services.MoviesListService;
 import io.itamarc.mymovieslistapi.transfer.MoviePayload;
 import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
-import io.itamarc.mymovieslistapi.transfer.MoviesListViews;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
 public class MoviesListControllerTest {
     @Mock
     MoviesListService moviesListService;
 
-    @InjectMocks
     MoviesListController moviesListController;
 
     MockMvc mockMvc;
-
-    ObjectMapper mapper;
 
     UserPayload user;
     MoviePayload movie1;
     MoviesListPayload moviesListPayload;
 
+    AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-        user = UserPayload.builder().id(1L).name("John Doe").email("johndoe@someweirdemail.cc").build();
+        closeable = MockitoAnnotations.openMocks(this);
+
+        moviesListController = new MoviesListController(moviesListService);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(moviesListController).build();
+        user = UserPayload.builder()
+                .id(1L)
+                .name("John Doe")
+                .email("johndoe@someweirdemail.cc")
+                .build();
         movie1 = MoviePayload.builder()
             .id(1L)
             .title("Movie 1")
@@ -53,32 +62,45 @@ public class MoviesListControllerTest {
                 .user(user)
                 .build();
         moviesListPayload.getMovies().add(movie1);
-        mapper = JsonMapper.builder().disable(MapperFeature.DEFAULT_VIEW_INCLUSION).build();
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close();
+    }
+
+
+
+    @Test
+    public void getMoviesListById() throws Exception {
+        // given
+        when(moviesListService.findById(anyLong())).thenReturn(moviesListPayload);
+        // when
+        mockMvc.perform(get("/movies-lists/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", is(1)))
+            .andExpect(jsonPath("$.title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$.user.id", is(1)))
+            .andExpect(jsonPath("$.user.name", is("John Doe")))
+            .andExpect(jsonPath("$.user.email", is("johndoe@someweirdemail.cc")))
+            .andExpect(jsonPath("$.movies").doesNotExist());
+        // then
+        verify(moviesListService, times(1)).findById(anyLong());
     }
 
     @Test
-    public void getMoviesListByIdJson() throws JsonProcessingException {
-        String result = mapper.writerWithView(MoviesListViews.MoviesListWithMovies.class)
-            .writeValueAsString(moviesListPayload);
-
-        assertTrue(result.contains("Sci-fi Movies"));
-        assertTrue(result.contains("John Doe"));
-        assertTrue(result.contains("johndoe@someweirdemail.cc"));
-        assertTrue(result.contains("Movie 1"));
-
-        assertFalse(result.contains("password"));
-    }
-
-    @Test
-    public void getMoviesListWithMoviesByIdJson() throws JsonProcessingException {
-        String result = mapper.writerWithView(MoviesListViews.MoviesListBasic.class)
-            .writeValueAsString(moviesListPayload);
-
-        assertTrue(result.contains("Sci-fi Movies"));
-        assertTrue(result.contains("John Doe"));
-        assertTrue(result.contains("johndoe@someweirdemail.cc"));
-
-        assertFalse(result.contains("password"));
-        assertFalse(result.contains("movies"));
-    }
+    public void getMoviesListWithMoviesById() throws Exception {
+        // given
+        when(moviesListService.findById(anyLong())).thenReturn(moviesListPayload);
+        // when
+        mockMvc.perform(get("/movies-lists/1/movies"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id", is(1)))
+            .andExpect(jsonPath("$.title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$.user.id", is(1)))
+            .andExpect(jsonPath("$.user.name", is("John Doe")))
+            .andExpect(jsonPath("$.user.email", is("johndoe@someweirdemail.cc")))
+            .andExpect(jsonPath("$.movies", hasSize(1)));
+        // then
+        verify(moviesListService, times(1)).findById(anyLong());    }
 }
