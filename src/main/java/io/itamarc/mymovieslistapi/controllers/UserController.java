@@ -38,7 +38,7 @@ public class UserController {
     @GetMapping("/users/{id}")
     @PreAuthorize("hasRole('USER')")
     @JsonView(UserViews.UserWithMoviesLists.class)
-    public @ResponseBody UserPayload getUserPayloadById(@PathVariable Long id) {
+    public @ResponseBody UserPayload getUserById(@PathVariable Long id) {
         log.debug("Mapping: Getting user payload by id: " + id);
         return userService.findById(id);
     }

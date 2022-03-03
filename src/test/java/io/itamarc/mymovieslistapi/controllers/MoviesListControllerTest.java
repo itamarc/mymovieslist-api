@@ -1,5 +1,6 @@
 package io.itamarc.mymovieslistapi.controllers;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +38,7 @@ public class MoviesListControllerTest {
     UserPayload user;
     MoviePayload movie1;
     MoviesListPayload moviesListPayload;
+    Set<MoviesListPayload> moviesLists;
 
     AutoCloseable closeable;
 
@@ -69,7 +75,43 @@ public class MoviesListControllerTest {
         closeable.close();
     }
 
+    // @GetMapping("/movies-lists")
+    // @JsonView(MoviesListViews.MoviesListBasic.class)
+    // public Set<MoviesListPayload> getMoviesLists(@RequestParam(required = false) Integer page) {
+    //     log.debug("Mapping: Getting moviesLists (page=" + page + ")");
+    //     if (page == null || page < 1) {
+    //         page = 1;
+    //     }
+    //     return moviesListsService.getMoviesLists(page);
+    // }
 
+    @Test
+    public void getMoviesLists() throws Exception {
+        // given
+        MoviesListPayload moviesListPayload2 = MoviesListPayload.builder()
+                                                .id(2L)
+                                                .title("Action Movies")
+                                                .user(user)
+                                                .build();
+
+        moviesLists = new LinkedHashSet<MoviesListPayload>(Arrays.asList(moviesListPayload, moviesListPayload2));
+
+        when(moviesListService.getMoviesLists(anyInt())).thenReturn(moviesLists);
+
+        // when
+        mockMvc.perform(get("/movies-lists"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].id", is(1)))
+            .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$[0].user.id", is(1)))
+            .andExpect(jsonPath("$[0].user.name", is("John Doe")))
+            .andExpect(jsonPath("$[0].user.email", is("johndoe@someweirdemail.cc")))
+            .andExpect(jsonPath("$[0].movies").doesNotExist())
+            .andExpect(jsonPath("$", hasSize(2)));
+
+        // then
+        verify(moviesListService, times(1)).getMoviesLists(anyInt());
+    }
 
     @Test
     public void getMoviesListById() throws Exception {
