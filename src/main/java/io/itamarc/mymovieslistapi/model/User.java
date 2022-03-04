@@ -1,7 +1,7 @@
 package io.itamarc.mymovieslistapi.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -41,7 +41,7 @@ public class User extends BaseEntity {
     private LocalDate registered;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<MoviesList> moviesLists = new HashSet<>();
+    private Set<MoviesList> moviesLists = new LinkedHashSet<>();
 
     @NotNull
     @Enumerated(EnumType.STRING)

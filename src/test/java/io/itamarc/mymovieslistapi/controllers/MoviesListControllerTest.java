@@ -109,8 +109,28 @@ public class MoviesListControllerTest {
             .andExpect(jsonPath("$[0].movies").doesNotExist())
             .andExpect(jsonPath("$", hasSize(2)));
 
+        mockMvc.perform(get("/movies-lists").param("page", "-1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].id", is(1)))
+            .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$[0].user.id", is(1)))
+            .andExpect(jsonPath("$[0].user.name", is("John Doe")))
+            .andExpect(jsonPath("$[0].user.email", is("johndoe@someweirdemail.cc")))
+            .andExpect(jsonPath("$[0].movies").doesNotExist())
+            .andExpect(jsonPath("$", hasSize(2)));
+
+        mockMvc.perform(get("/movies-lists").param("page", "1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].id", is(1)))
+            .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$[0].user.id", is(1)))
+            .andExpect(jsonPath("$[0].user.name", is("John Doe")))
+            .andExpect(jsonPath("$[0].user.email", is("johndoe@someweirdemail.cc")))
+            .andExpect(jsonPath("$[0].movies").doesNotExist())
+            .andExpect(jsonPath("$", hasSize(2)));
+
         // then
-        verify(moviesListService, times(1)).getMoviesLists(anyInt());
+        verify(moviesListService, times(3)).getMoviesLists(anyInt());
     }
 
     @Test

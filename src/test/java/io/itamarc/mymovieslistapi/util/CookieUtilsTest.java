@@ -52,7 +52,7 @@ public class CookieUtilsTest {
     @Test
     void deleteNonExistentCookie() {
         // given no cookies in the request
-        request.setCookies(null);
+        request.setCookies((Cookie[])null);
 
         // when
         CookieUtils.deleteCookie(request, response, "someName");
@@ -108,7 +108,7 @@ public class CookieUtilsTest {
     void getCookieNoCookies() {
         // given no cookies in the request
         String name = "cookieName";
-        request.setCookies(null);
+        request.setCookies((Cookie[])null);
 
         // when
         Optional<Cookie> cookieOptional = CookieUtils.getCookie(request, name);

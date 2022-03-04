@@ -3,6 +3,7 @@ package io.itamarc.mymovieslistapi.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -91,6 +92,19 @@ public class MoviesListServiceImplTest {
     }
 
     @Test
+    void findMovieListByIdNotFound() {
+        // given no data
+
+        // when
+        when(moviesListRepository.findById(anyLong())).thenReturn(Optional.empty());
+        MoviesListPayload foundList = moviesListService.findById(1L);
+
+        // then
+        assertNull(foundList);
+        verify(moviesListRepository, times(1)).findById(anyLong());
+    }
+
+    @Test
     void getMoviesLists() {
         // given data in setUp method and:
         MoviesList moviesList2 = new MoviesList();
@@ -105,6 +119,7 @@ public class MoviesListServiceImplTest {
 
         // when
         when(moviesListRepository.findAll()).thenReturn(List.of(moviesList, moviesList2));
+        moviesListService.getMoviesLists(-1);
         Set<MoviesListPayload> foundLists = moviesListService.getMoviesLists(1);
 
         // then
@@ -114,6 +129,6 @@ public class MoviesListServiceImplTest {
         assertEquals(TITLE, firstListFound.getTitle());
         assertEquals(2L, firstListFound.getUser().getId());
         assertEquals(1, firstListFound.getMovies().size());
-        verify(moviesListRepository, times(1)).findAll();
+        verify(moviesListRepository, times(2)).findAll();
     }
 }

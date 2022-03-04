@@ -1,6 +1,6 @@
 package io.itamarc.mymovieslistapi.services;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import io.itamarc.mymovieslistapi.repositories.UserRepository;
 import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
-@Service  
+@Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<UserPayload> findAll() {
-        Set<UserPayload> users = new HashSet<>();
+        Set<UserPayload> users = new LinkedHashSet<>();
         userRepository.findAll().forEach(user -> users.add(userToUserPayload(user)));
         return users;
     }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 .imageUrl(user.getImageUrl())
                 .registered(user.getRegistered())
                 .build();
-                if (user.getMoviesLists() != null) {
+                if (!user.getMoviesLists().isEmpty()) {
                     user.getMoviesLists().forEach(
                         moviesList -> userPayload.getMoviesLists().add(
                             MoviesListPayload.builder()

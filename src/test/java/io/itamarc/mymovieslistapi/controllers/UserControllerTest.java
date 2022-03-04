@@ -23,9 +23,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import io.itamarc.mymovieslistapi.model.AuthProvider;
-import io.itamarc.mymovieslistapi.model.User;
-import io.itamarc.mymovieslistapi.security.UserPrincipal;
 import io.itamarc.mymovieslistapi.services.UserService;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
@@ -108,6 +105,19 @@ public class UserControllerTest {
             .andExpect(jsonPath("$.email", is(EMAIL)))
             .andExpect(jsonPath("$.imageUrl", is(IMAGE_URL)))
             .andExpect(jsonPath("$.moviesLists").doesNotExist());
+
+        // then
+        verify(service, times(1)).findById(any());
+    }
+
+    @Test
+    void getCurrentUserNotFound() throws Exception {
+        // given
+        when(service.findById(any())).thenReturn(null);
+
+        // when
+        mockMvc.perform(get("/user/me"))
+            .andExpect(status().isNotFound());
 
         // then
         verify(service, times(1)).findById(any());
