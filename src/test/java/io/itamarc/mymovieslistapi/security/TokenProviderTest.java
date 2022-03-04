@@ -1,11 +1,11 @@
 package io.itamarc.mymovieslistapi.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,11 +46,10 @@ public class TokenProviderTest {
         tokenProvider = new TokenProvider(appProperties);
 
         User user = new User();
-        user.setId(1L);
+        user.setId(123L);
         user.setName("John Doe");
         user.setEmail("johndoe@weirdemailaddress.cc");
         user.setPassword("password");
-
         principal = UserPrincipal.create(user);
     }
 
@@ -70,16 +69,43 @@ public class TokenProviderTest {
 
         // then
         assertTrue(token.matches("^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+$"));
-        assertEquals(125, token.length(), "Token should have 125 characters");
     }
 
     @Test
     void getUserIdFromToken() {
+        // given
+        when(authentication.getPrincipal()).thenReturn(principal);
+        String token = tokenProvider.createToken(authentication);
 
+        // when
+        Long result = tokenProvider.getUserIdFromToken(token);
+
+        // then
+        assertEquals(123L, result);
     }
 
     @Test
     void validateToken() {
+        // given
+        when(authentication.getPrincipal()).thenReturn(principal);
+        String token = tokenProvider.createToken(authentication);
 
+        // when
+        boolean result = tokenProvider.validateToken(token);
+
+        // then
+        assertTrue(result);
+    }
+
+    @Test
+    void validateTokenInvalid() {
+        // given
+        String token = "invalid-token";
+
+        // when
+        boolean result = tokenProvider.validateToken(token);
+
+        // then
+        assertFalse(result);
     }
 }
