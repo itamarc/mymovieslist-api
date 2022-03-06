@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -110,5 +111,24 @@ public class AuthControllerTest {
         mockMvc.perform(post("/auth/signup").contentType(APPLICATION_JSON_UTF8)
                 .content(requestJson))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void registerUser_EmailInUse() throws Exception {
+        SignUpRequest signUpRequest = new SignUpRequest();
+        signUpRequest.setName(NAME);
+        signUpRequest.setEmail(EMAIL);
+        signUpRequest.setPassword(PASSWORD);
+
+        when(userService.existsByEmail(anyString())).thenReturn(true);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(signUpRequest);
+
+        mockMvc.perform(post("/auth/signup").contentType(APPLICATION_JSON_UTF8)
+                .content(requestJson))
+                .andExpect(status().isBadRequest());
     }
 }
