@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.itamarc.mymovieslistapi.exception.BadRequestException;
 import io.itamarc.mymovieslistapi.exception.ResourceNotFoundException;
 import io.itamarc.mymovieslistapi.security.CurrentUser;
 import io.itamarc.mymovieslistapi.security.UserPrincipal;
@@ -47,6 +48,9 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     @JsonView(UserViews.UserBasic.class)
     public UserPayload getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        if (userPrincipal == null) {
+            throw new BadRequestException("Current user not identified.");
+        }
         UserPayload userPayload = userService.findById(userPrincipal.getId());
         if (userPayload == null) {
             throw new ResourceNotFoundException("User", "id", userPrincipal.getId());

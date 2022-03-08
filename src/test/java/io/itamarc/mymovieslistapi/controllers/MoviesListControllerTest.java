@@ -105,7 +105,6 @@ public class MoviesListControllerTest {
             .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
             .andExpect(jsonPath("$[0].user.id", is(1)))
             .andExpect(jsonPath("$[0].user.name", is("John Doe")))
-            .andExpect(jsonPath("$[0].user.email", is("johndoe@someweirdemail.cc")))
             .andExpect(jsonPath("$[0].movies").doesNotExist())
             .andExpect(jsonPath("$", hasSize(2)));
 
@@ -115,7 +114,6 @@ public class MoviesListControllerTest {
             .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
             .andExpect(jsonPath("$[0].user.id", is(1)))
             .andExpect(jsonPath("$[0].user.name", is("John Doe")))
-            .andExpect(jsonPath("$[0].user.email", is("johndoe@someweirdemail.cc")))
             .andExpect(jsonPath("$[0].movies").doesNotExist())
             .andExpect(jsonPath("$", hasSize(2)));
 
@@ -125,7 +123,6 @@ public class MoviesListControllerTest {
             .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
             .andExpect(jsonPath("$[0].user.id", is(1)))
             .andExpect(jsonPath("$[0].user.name", is("John Doe")))
-            .andExpect(jsonPath("$[0].user.email", is("johndoe@someweirdemail.cc")))
             .andExpect(jsonPath("$[0].movies").doesNotExist())
             .andExpect(jsonPath("$", hasSize(2)));
 
@@ -144,7 +141,6 @@ public class MoviesListControllerTest {
             .andExpect(jsonPath("$.title", is("Sci-fi Movies")))
             .andExpect(jsonPath("$.user.id", is(1)))
             .andExpect(jsonPath("$.user.name", is("John Doe")))
-            .andExpect(jsonPath("$.user.email", is("johndoe@someweirdemail.cc")))
             .andExpect(jsonPath("$.movies").doesNotExist());
         // then
         verify(moviesListService, times(1)).findById(anyLong());
@@ -161,7 +157,6 @@ public class MoviesListControllerTest {
             .andExpect(jsonPath("$.title", is("Sci-fi Movies")))
             .andExpect(jsonPath("$.user.id", is(1)))
             .andExpect(jsonPath("$.user.name", is("John Doe")))
-            .andExpect(jsonPath("$.user.email", is("johndoe@someweirdemail.cc")))
             .andExpect(jsonPath("$.movies", hasSize(1)));
         // then
         verify(moviesListService, times(1)).findById(anyLong());    }

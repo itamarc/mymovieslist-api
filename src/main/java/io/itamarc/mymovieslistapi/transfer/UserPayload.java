@@ -19,7 +19,7 @@ public class UserPayload {
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
     private String name;
 
-    @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
+    @JsonView(value = { UserViews.UserBasic.class })
     private String email;
 
     private String password;

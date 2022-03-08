@@ -47,7 +47,6 @@ public class JsonViewTest {
 
         assertTrue(result.contains("Sci-fi Movies"));
         assertTrue(result.contains("John Doe"));
-        assertTrue(result.contains("johndoe@someweirdemail.cc"));
         assertTrue(result.contains("Movie 1"));
 
         assertFalse(result.contains("password"));
@@ -60,7 +59,6 @@ public class JsonViewTest {
 
         assertTrue(result.contains("Sci-fi Movies"));
         assertTrue(result.contains("John Doe"));
-        assertTrue(result.contains("johndoe@someweirdemail.cc"));
 
         assertFalse(result.contains("password"));
         assertFalse(result.contains("movies"));

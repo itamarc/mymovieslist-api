@@ -14,14 +14,38 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(callSuper = true, exclude = { "moviesLists" })
 @EqualsAndHashCode(callSuper = true, exclude = { "moviesLists" })
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User extends BaseEntity {
+    @Builder
+    public User(Long id,
+                String name,
+                String email,
+                String password,
+                String imageUrl,
+                Boolean emailVerified,
+                LocalDate registered) {
+        super(id);
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.imageUrl = imageUrl;
+        this.emailVerified = emailVerified;
+        this.registered = registered;
+    }
+
     @Column(nullable = false)
     private String name;
 
