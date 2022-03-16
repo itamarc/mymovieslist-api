@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@Profile({ "dev", "prod" })
+@Profile({ "test", "dev", "prod" })
 public class DataLoaderAdminUser implements CommandLineRunner {
     UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

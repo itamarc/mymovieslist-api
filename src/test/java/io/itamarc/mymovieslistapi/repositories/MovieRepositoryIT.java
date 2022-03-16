@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import io.itamarc.mymovieslistapi.model.Movie;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = {"spring.profiles.active=test"})
 @ActiveProfiles("test")
 public class MovieRepositoryIT {
     @Autowired
