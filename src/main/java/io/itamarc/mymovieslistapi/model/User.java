@@ -1,6 +1,6 @@
 package io.itamarc.mymovieslistapi.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class User extends BaseEntity {
                 String password,
                 String imageUrl,
                 Boolean emailVerified,
-                LocalDate registered) {
+                LocalDateTime registered) {
         super(id);
         this.name = name;
         this.email = email;
@@ -62,7 +62,7 @@ public class User extends BaseEntity {
     private Boolean emailVerified;
 
     @Column
-    private LocalDate registered;
+    private LocalDateTime registered;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<MoviesList> moviesLists = new LinkedHashSet<>();

@@ -1,8 +1,10 @@
 package io.itamarc.mymovieslistapi.bootstrap;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings(value = {"unused"})
 @Slf4j
 @Component
+@Profile({"test", "dev"})
 public class DataLoader implements CommandLineRunner {
     UserRepository userRepository;
     MoviesListRepository moviesListRepository;
@@ -52,7 +55,7 @@ public class DataLoader implements CommandLineRunner {
         user1.setEmail("itamarc@gmail.com");
         user1.setPassword(passwordEncoder.encode("123456"));
         user1.setImageUrl("https://avatars.githubusercontent.com/u/19577272?v=4");
-        user1.setRegistered(LocalDate.now());
+        user1.setRegistered(LocalDateTime.now());
         user1.setProvider(AuthProvider.local);
         user1.setEmailVerified(true);
         User savedUser1 = userRepository.save(user1);
@@ -62,7 +65,7 @@ public class DataLoader implements CommandLineRunner {
         user2.setEmail("john.constantine@realhell.com");
         user2.setPassword(passwordEncoder.encode("123456"));
         user2.setImageUrl("https://www.superherodb.com/pictures2/portraits/10/100/718.jpg");
-        user2.setRegistered(LocalDate.now());
+        user2.setRegistered(LocalDateTime.now());
         user2.setProvider(AuthProvider.local);
         user2.setEmailVerified(true);
         User savedUser2 = userRepository.save(user2);
@@ -70,22 +73,22 @@ public class DataLoader implements CommandLineRunner {
         MoviesList moviesList1 = new MoviesList();
         moviesList1.setTitle("Sci-fi Movies");
         moviesList1.setUser(savedUser1);
-        moviesList1.setCreated(LocalDate.now());
-        moviesList1.setUpdated(LocalDate.now());
+        moviesList1.setCreated(LocalDateTime.now());
+        moviesList1.setUpdated(LocalDateTime.now());
         MoviesList savedMoviesList1 = moviesListRepository.save(moviesList1);
 
         MoviesList moviesList2 = new MoviesList();
         moviesList2.setTitle("Christmas Movies");
         moviesList2.setUser(savedUser2);
-        moviesList2.setCreated(LocalDate.now());
-        moviesList2.setUpdated(LocalDate.now());
+        moviesList2.setCreated(LocalDateTime.now());
+        moviesList2.setUpdated(LocalDateTime.now());
         MoviesList savedMoviesList2 = moviesListRepository.save(moviesList2);
 
         MoviesList moviesList3 = new MoviesList();
         moviesList3.setTitle("War Movies");
         moviesList3.setUser(savedUser1);
-        moviesList3.setCreated(LocalDate.now());
-        moviesList3.setUpdated(LocalDate.now());
+        moviesList3.setCreated(LocalDateTime.now());
+        moviesList3.setUpdated(LocalDateTime.now());
         MoviesList savedMoviesList3 = moviesListRepository.save(moviesList3);
 
         Movie movie0 = new Movie();
@@ -94,56 +97,55 @@ public class DataLoader implements CommandLineRunner {
         movie0.setYear(1999);
         movie0.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie0 = movieRepository.save(movie0);
-        
+
         Movie movie1 = new Movie();
         movie1.setTitle("The Polar Express");
         movie1.setDescription("A christmas story");
         movie1.setYear(2004);
         movie1.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie1 = movieRepository.save(movie1);
-        
+
         Movie movie2 = new Movie();
         movie2.setTitle("The Dark Knight");
         movie2.setDescription("The best Batman movie");
         movie2.setYear(2008);
         movie2.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie2 = movieRepository.save(movie2);
-        
+
         Movie movie3 = new Movie();
         movie3.setTitle("Clash of the Titans");
         movie3.setDescription("Greek mythology action movie");
         movie3.setYear(2010);
         movie3.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie3 = movieRepository.save(movie3);
-        
+
         Movie movie4 = new Movie();
         movie4.setTitle("Inception");
         movie4.setYear(2010);
         movie4.setDescription("A thief, who steals corporate secrets through use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO.");
         movie4.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie4 = movieRepository.save(movie4);
-        
+
         Movie movie5 = new Movie();
         movie5.setTitle("Tenet");
         movie5.setDescription("A CIA agent and a French Connection guy are forced to work together to stop a war");
         movie5.setYear(2020);
         movie5.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie5 = movieRepository.save(movie5);
-        
+
         Movie movie6 = new Movie();
         movie6.setTitle("Interstellar");
         movie6.setDescription("A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.");
         movie6.setYear(2014);
         movie6.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie6 = movieRepository.save(movie6);
-        
+
         Movie movie7 = new Movie();
         movie7.setTitle("American Sniper");
         movie7.setDescription("A Navy SEAL is called to the battlefield to join a company of soldiers fighting to defend their nation against an invasion of enemy soldiers.");
         movie7.setYear(2014);
         movie7.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie7 = movieRepository.save(movie7);
-        
 
         MovieRank movieRank1 = new MovieRank();
         movieRank1.setMovie(savedMovie0);
@@ -208,7 +210,7 @@ public class DataLoader implements CommandLineRunner {
         movieRank8.setUser(savedUser1);
         movieRank8.addMoviesList(savedMoviesList1);
         MovieRank savedMovieRank8 = movieRankRepository.save(movieRank8);
-        
+
         MovieRank movieRank21 = new MovieRank();
         movieRank21.setMovie(savedMovie1);
         movieRank21.setRank(10);

@@ -1,7 +1,7 @@
 package io.itamarc.mymovieslistapi.transfer;
 
-import java.time.LocalDate;
 import java.util.Set;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -28,10 +28,10 @@ public class MoviesListPayload {
     private String title;
 
     @JsonView(value = { UserViews.UserWithMoviesLists.class, MoviesListViews.MoviesListBasic.class })
-    private LocalDate created;
+    private LocalDateTime created;
 
     @JsonView(value = { UserViews.UserWithMoviesLists.class, MoviesListViews.MoviesListBasic.class })
-    private LocalDate updated;
+    private LocalDateTime updated;
 
     @JsonView(value = { MoviesListViews.MoviesListBasic.class })
     @ToString.Exclude

@@ -9,7 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class MoviesListServiceImplTest {
         moviesList = new MoviesList();
         moviesList.setId(1L);
         moviesList.setTitle(TITLE);
-        moviesList.setUpdated(LocalDate.of(2022, 03, 02));
+        moviesList.setUpdated(LocalDateTime.of(2022, 03, 02, 12, 0, 0));
         User user = new User();
         user.setId(2L);
         user.setName("Itamar");
@@ -110,7 +110,7 @@ public class MoviesListServiceImplTest {
         MoviesList moviesList2 = new MoviesList();
         moviesList2.setId(2L);
         moviesList2.setTitle("Some Movies List 2");
-        moviesList2.setUpdated(LocalDate.of(2022, 03, 02));
+        moviesList2.setUpdated(LocalDateTime.of(2022, 03, 02, 12, 0, 0));
         User user = new User();
         user.setId(3L);
         user.setName("John Doe");

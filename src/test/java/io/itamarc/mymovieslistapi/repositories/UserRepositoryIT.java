@@ -3,7 +3,7 @@ package io.itamarc.mymovieslistapi.repositories;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -27,7 +27,7 @@ public class UserRepositoryIT {
     static final Long USER_ID = 1L;
     static final String NAME = "Itamar Carvalho";
     static final String EMAIL = "itamarc@gmail.com";
-    static final LocalDate REGISTERED = LocalDate.now();
+    static final LocalDateTime REGISTERED = LocalDateTime.now();
 
     @BeforeAll
     static void beforeClass() {

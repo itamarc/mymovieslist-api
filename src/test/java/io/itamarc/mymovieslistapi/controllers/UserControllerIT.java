@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -59,7 +59,7 @@ public class UserControllerIT {
     private final String NAME = "John Doe";
     private final String EMAIL = "johndoe@weirdemailserver.cc";
     private final String IMAGE_URL = "/user/avatar.jpg";
-    private final LocalDate REGISTERED = LocalDate.of(2022, 3, 3);
+    private final LocalDateTime REGISTERED = LocalDateTime.of(2022, 3, 3, 12, 0, 0);
 
     UserPayload user;
     Set<UserPayload> users;

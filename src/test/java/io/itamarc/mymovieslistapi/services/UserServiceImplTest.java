@@ -11,7 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -151,7 +151,7 @@ public class UserServiceImplTest {
         String email = "johndoe@weirdemailserver.cc";
         String password = "123456";
         String imageUrl = "/notfound.png";
-        LocalDate registered = LocalDate.of(2022, 3, 3);
+        LocalDateTime registered = LocalDateTime.of(2022, 3, 3, 12, 0, 0);
 
         UserPayload userPayload = UserPayload.builder()
                 .id(1L)

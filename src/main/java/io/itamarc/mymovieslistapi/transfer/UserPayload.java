@@ -1,6 +1,6 @@
 package io.itamarc.mymovieslistapi.transfer;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class UserPayload {
     private String imageUrl;
 
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
-    private LocalDate registered;
+    private LocalDateTime registered;
 
     private AuthProvider provider;
 

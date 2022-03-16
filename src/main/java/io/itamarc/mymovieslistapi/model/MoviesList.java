@@ -5,7 +5,7 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,10 +18,10 @@ public class MoviesList extends BaseEntity {
     private String title;
 
     @Column(name = "created")
-    private LocalDate created;
+    private LocalDateTime created;
 
     @Column(name = "updated")
-    private LocalDate updated;
+    private LocalDateTime updated;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

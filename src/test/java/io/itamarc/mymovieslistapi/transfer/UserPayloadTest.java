@@ -3,7 +3,7 @@ package io.itamarc.mymovieslistapi.transfer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -29,7 +29,7 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -39,7 +39,7 @@ public class UserPayloadTest {
                 .email("other email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -57,7 +57,7 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -66,7 +66,7 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -81,7 +81,7 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -90,7 +90,7 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.now())
+                .registered(LocalDateTime.now())
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -105,12 +105,12 @@ public class UserPayloadTest {
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDate.of(2022, 3, 1))
+                .registered(LocalDateTime.of(2022, 3, 1, 12, 0, 0))
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
 
-        assertEquals("UserPayload(id=null, name=name, email=email, password=password, imageUrl=imageUrl, registered=2022-03-01, provider=google, providerId=providerId, moviesLists=[])", userPayload.toString());
+        assertEquals("UserPayload(id=null, name=name, email=email, password=password, imageUrl=imageUrl, registered=2022-03-01T12:00, provider=google, providerId=providerId, moviesLists=[])", userPayload.toString());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class UserPayloadTest {
         userPayload.setEmail("email");
         userPayload.setPassword("password");
         userPayload.setImageUrl("imageUrl");
-        userPayload.setRegistered(LocalDate.of(2022, 3, 1));
+        userPayload.setRegistered(LocalDateTime.of(2022, 3, 1, 12, 0, 0));
         userPayload.setProvider(AuthProvider.google);
         userPayload.setProviderId("providerId");
 
@@ -130,7 +130,7 @@ public class UserPayloadTest {
         assertEquals("email", userPayload.getEmail());
         assertEquals("password", userPayload.getPassword());
         assertEquals("imageUrl", userPayload.getImageUrl());
-        assertEquals(LocalDate.of(2022, 3, 1), userPayload.getRegistered());
+        assertEquals(LocalDateTime.of(2022, 3, 1, 12, 0, 0), userPayload.getRegistered());
         assertEquals(AuthProvider.google, userPayload.getProvider());
         assertEquals("providerId", userPayload.getProviderId());
     }
