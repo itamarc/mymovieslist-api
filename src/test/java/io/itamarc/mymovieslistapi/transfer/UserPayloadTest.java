@@ -13,33 +13,34 @@ public class UserPayloadTest {
 
     @Test
     void unequals() {
+        LocalDateTime dateTime = LocalDateTime.now();
         UserPayload userPayload1 = UserPayload.builder()
                 .id(1L)
                 .name("name")
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
-                UserPayload userPayload2 = UserPayload.builder()
+        UserPayload userPayload2 = UserPayload.builder()
                 .id(2L)
                 .name("name")
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
-            UserPayload userPayload3 = UserPayload.builder()
+        UserPayload userPayload3 = UserPayload.builder()
                 .id(1L)
                 .name("name")
                 .email("other email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -52,21 +53,22 @@ public class UserPayloadTest {
 
     @Test
     void equalsTest() {
+        LocalDateTime dateTime = LocalDateTime.now();
         UserPayload userPayload1 = UserPayload.builder()
                 .name("name")
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
-                UserPayload userPayload2 = UserPayload.builder()
+        UserPayload userPayload2 = UserPayload.builder()
                 .name("name")
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
@@ -76,21 +78,22 @@ public class UserPayloadTest {
 
     @Test
     void hashCodeTest() {
+        LocalDateTime dateTime = LocalDateTime.now();
         UserPayload userPayload1 = UserPayload.builder()
                 .name("name")
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
-                UserPayload userPayload2 = UserPayload.builder()
+        UserPayload userPayload2 = UserPayload.builder()
                 .name("name")
                 .email("email")
                 .password("password")
                 .imageUrl("imageUrl")
-                .registered(LocalDateTime.now())
+                .registered(dateTime)
                 .provider(AuthProvider.google)
                 .providerId("providerId")
                 .build();
