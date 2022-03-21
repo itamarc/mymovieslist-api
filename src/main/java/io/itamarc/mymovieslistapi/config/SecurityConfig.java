@@ -109,6 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
+                        "/movies-lists/**",
                         "/h2-console/**") // TODO Remove open access to H2 Console
                         .permitAll()
                     .antMatchers("/auth/**", "/oauth2/**")

@@ -147,6 +147,13 @@ public class DataLoader implements CommandLineRunner {
         movie7.setImageUrl("/movieimageunavailable.png");
         Movie savedMovie7 = movieRepository.save(movie7);
 
+        Movie movie8 = new Movie();
+        movie8.setTitle("Hacksaw Ridge");
+        movie8.setDescription("It's the extraordinary true story of Desmond Doss who, in Okinawa during the bloodiest battle of WWII, saved 75 men without firing or carrying a gun.");
+        movie8.setYear(2016);
+        movie8.setImageUrl("/movieimageunavailable.png");
+        Movie savedMovie8 = movieRepository.save(movie8);
+
         MovieRank movieRank1 = new MovieRank();
         movieRank1.setMovie(savedMovie0);
         movieRank1.setRank(10);
@@ -156,11 +163,11 @@ public class DataLoader implements CommandLineRunner {
         MovieRank savedMovieRank1 = movieRankRepository.save(movieRank1);
 
         MovieRank movieRank2 = new MovieRank();
-        movieRank2.setMovie(savedMovie1);
+        movieRank2.setMovie(savedMovie8);
         movieRank2.setRank(10);
         movieRank2.setWatched(true);
         movieRank2.setUser(savedUser1);
-        movieRank2.addMoviesList(savedMoviesList1);
+        movieRank2.addMoviesList(savedMoviesList3);
         MovieRank savedMovieRank2 = movieRankRepository.save(movieRank2);
 
         MovieRank movieRank3 = new MovieRank();
@@ -203,13 +210,13 @@ public class DataLoader implements CommandLineRunner {
         movieRank7.addMoviesList(savedMoviesList1);
         MovieRank savedMovieRank7 = movieRankRepository.save(movieRank7);
 
-        MovieRank movieRank8 = new MovieRank();
-        movieRank8.setMovie(savedMovie7);
-        movieRank8.setRank(10);
-        movieRank8.setWatched(true);
-        movieRank8.setUser(savedUser1);
-        movieRank8.addMoviesList(savedMoviesList1);
-        MovieRank savedMovieRank8 = movieRankRepository.save(movieRank8);
+        // MovieRank movieRank8 = new MovieRank();
+        // movieRank8.setMovie(savedMovie7);
+        // movieRank8.setRank(10);
+        // movieRank8.setWatched(true);
+        // movieRank8.setUser(savedUser1);
+        // movieRank8.addMoviesList(savedMoviesList1);
+        // MovieRank savedMovieRank8 = movieRankRepository.save(movieRank8);
 
         MovieRank movieRank21 = new MovieRank();
         movieRank21.setMovie(savedMovie1);
