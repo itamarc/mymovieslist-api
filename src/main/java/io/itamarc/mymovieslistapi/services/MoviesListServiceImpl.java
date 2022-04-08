@@ -30,7 +30,7 @@ public class MoviesListServiceImpl implements MoviesListService {
             page = 1;
         }
         page--;
-        Pageable pageable = PageRequest.of(page, 2, Sort.by("updated").descending()); // TODO Put the page size in some configuration file
+        Pageable pageable = PageRequest.of(page, 20, Sort.by("updated").descending()); // TODO Put the page size in some configuration file
         Page<MoviesList> pageData = moviesListRepository.findAll(pageable);
         return pageData.map(list -> moviesListToMoviesListPayload(list));
     }

@@ -101,30 +101,30 @@ public class MoviesListControllerTest {
         // when
         mockMvc.perform(get("/movies-lists"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].id", is(1)))
-            .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
-            .andExpect(jsonPath("$[0].user.id", is(1)))
-            .andExpect(jsonPath("$[0].user.name", is("John Doe")))
-            .andExpect(jsonPath("$[0].movies").doesNotExist())
-            .andExpect(jsonPath("$", hasSize(2)));
+            .andExpect(jsonPath("$.content[0].id", is(1)))
+            .andExpect(jsonPath("$.content[0].title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$.content[0].user.id", is(1)))
+            .andExpect(jsonPath("$.content[0].user.name", is("John Doe")))
+            .andExpect(jsonPath("$.content[0].movies").doesNotExist())
+            .andExpect(jsonPath("$.content", hasSize(2)));
 
         mockMvc.perform(get("/movies-lists").param("page", "-1"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].id", is(1)))
-            .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
-            .andExpect(jsonPath("$[0].user.id", is(1)))
-            .andExpect(jsonPath("$[0].user.name", is("John Doe")))
-            .andExpect(jsonPath("$[0].movies").doesNotExist())
-            .andExpect(jsonPath("$", hasSize(2)));
+            .andExpect(jsonPath("$.content[0].id", is(1)))
+            .andExpect(jsonPath("$.content[0].title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$.content[0].user.id", is(1)))
+            .andExpect(jsonPath("$.content[0].user.name", is("John Doe")))
+            .andExpect(jsonPath("$.content[0].movies").doesNotExist())
+            .andExpect(jsonPath("$.content", hasSize(2)));
 
         mockMvc.perform(get("/movies-lists").param("page", "1"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].id", is(1)))
-            .andExpect(jsonPath("$[0].title", is("Sci-fi Movies")))
-            .andExpect(jsonPath("$[0].user.id", is(1)))
-            .andExpect(jsonPath("$[0].user.name", is("John Doe")))
-            .andExpect(jsonPath("$[0].movies").doesNotExist())
-            .andExpect(jsonPath("$", hasSize(2)));
+            .andExpect(jsonPath("$.content[0].id", is(1)))
+            .andExpect(jsonPath("$.content[0].title", is("Sci-fi Movies")))
+            .andExpect(jsonPath("$.content[0].user.id", is(1)))
+            .andExpect(jsonPath("$.content[0].user.name", is("John Doe")))
+            .andExpect(jsonPath("$.content[0].movies").doesNotExist())
+            .andExpect(jsonPath("$.content", hasSize(2)));
 
         // then
         verify(moviesListService, times(3)).getMoviesLists(anyInt());
