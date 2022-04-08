@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,13 +13,15 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import io.itamarc.mymovieslistapi.model.Movie;
 import io.itamarc.mymovieslistapi.model.MovieRank;
@@ -118,17 +121,17 @@ public class MoviesListServiceImplTest {
         moviesList2.setUser(user);
 
         // when
-        when(moviesListRepository.findAll()).thenReturn(List.of(moviesList, moviesList2));
+        when(moviesListRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<MoviesList>(List.of(moviesList, moviesList2)));
         moviesListService.getMoviesLists(-1);
-        Set<MoviesListPayload> foundLists = moviesListService.getMoviesLists(1);
+        Page<MoviesListPayload> foundLists = moviesListService.getMoviesLists(1);
 
         // then
         MoviesListPayload firstListFound = foundLists.iterator().next();
         assertNotNull(foundLists);
-        assertEquals(2, foundLists.size());
+        assertEquals(2, foundLists.getSize());
         assertEquals(TITLE, firstListFound.getTitle());
         assertEquals(2L, firstListFound.getUser().getId());
         assertEquals(1, firstListFound.getMovies().size());
-        verify(moviesListRepository, times(2)).findAll();
+        verify(moviesListRepository, times(2)).findAll(any(Pageable.class));
     }
 }

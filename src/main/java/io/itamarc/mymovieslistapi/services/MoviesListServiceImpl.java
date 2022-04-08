@@ -3,6 +3,10 @@ package io.itamarc.mymovieslistapi.services;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.itamarc.mymovieslistapi.model.MovieRank;
@@ -21,15 +25,14 @@ public class MoviesListServiceImpl implements MoviesListService {
         this.moviesListRepository = moviesListRepository;
     }
 
-    public Set<MoviesListPayload> getMoviesLists(int page) {
-        Set<MoviesListPayload> moviesLists = new LinkedHashSet<>();
+    public Page<MoviesListPayload> getMoviesLists(int page) {
         if (page < 1) {
             page = 1;
         }
-        // TODO get only a page of movies lists
-        Iterable<MoviesList> iter = moviesListRepository.findAll();
-        iter.forEach(list -> moviesLists.add(moviesListToMoviesListPayload(list)));
-        return moviesLists;
+        page--;
+        Pageable pageable = PageRequest.of(page, 2, Sort.by("updated").descending()); // TODO Put the page size in some configuration file
+        Page<MoviesList> pageData = moviesListRepository.findAll(pageable);
+        return pageData.map(list -> moviesListToMoviesListPayload(list));
     }
 
     private MoviesListPayload moviesListToMoviesListPayload(MoviesList moviesList) {

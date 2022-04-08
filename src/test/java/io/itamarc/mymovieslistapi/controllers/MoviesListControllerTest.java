@@ -11,14 +11,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -38,7 +38,7 @@ public class MoviesListControllerTest {
     UserPayload user;
     MoviePayload movie1;
     MoviesListPayload moviesListPayload;
-    Set<MoviesListPayload> moviesLists;
+    Page<MoviesListPayload> moviesLists;
 
     AutoCloseable closeable;
 
@@ -94,7 +94,7 @@ public class MoviesListControllerTest {
                                                 .user(user)
                                                 .build();
 
-        moviesLists = new LinkedHashSet<MoviesListPayload>(Arrays.asList(moviesListPayload, moviesListPayload2));
+        moviesLists = new PageImpl<MoviesListPayload>(Arrays.asList(moviesListPayload, moviesListPayload2));
 
         when(moviesListService.getMoviesLists(anyInt())).thenReturn(moviesLists);
 

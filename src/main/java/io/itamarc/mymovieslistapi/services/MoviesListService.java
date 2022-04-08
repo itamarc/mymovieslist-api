@@ -1,11 +1,11 @@
 package io.itamarc.mymovieslistapi.services;
 
-import java.util.Set;
+import org.springframework.data.domain.Page;
 
 import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
 
 public interface MoviesListService {
-    public Set<MoviesListPayload> getMoviesLists(int page);
+    public Page<MoviesListPayload> getMoviesLists(int page);
 
     public MoviesListPayload findById(Long id);
 }
