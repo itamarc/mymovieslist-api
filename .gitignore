@@ -36,3 +36,5 @@ application-*.properties
 !application-test.properties
 
 *.log
+*.local
+.run/mymovieslist-api.run.xml

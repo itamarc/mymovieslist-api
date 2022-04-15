@@ -1,6 +1,8 @@
 package io.itamarc.mymovieslistapi.security;
 
 import io.itamarc.mymovieslistapi.config.AppProperties;
+import io.itamarc.mymovieslistapi.model.User;
+import io.itamarc.mymovieslistapi.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -10,16 +12,21 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.crypto.SecretKey;
 
 @Slf4j
 @Service
 public class TokenProvider {
+    @Autowired
+    private UserRepository userRepository;
 
     private final AppProperties appProperties;
 
@@ -28,7 +35,22 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        UserPrincipal userPrincipal;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof DefaultOidcUser) {
+            log.debug("TokenProvider: DefaultOidcUser received");
+            DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
+            Optional<User> optionalUser = userRepository.findByEmail(oidcUser.getEmail());
+            if (optionalUser.isPresent()) {
+                userPrincipal = UserPrincipal.create(optionalUser.get(), oidcUser.getAttributes());
+            } else {
+                userPrincipal = new UserPrincipal(null, oidcUser.getEmail(), null, oidcUser.getAuthorities());
+                userPrincipal.setAttributes(oidcUser.getAttributes());
+            }
+        } else {
+            log.debug("TokenProvider: UserPrincipal received");
+            userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        }
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());

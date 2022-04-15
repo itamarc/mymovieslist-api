@@ -82,10 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                     .and()
-                .headers() // TODO This is for h2-console. Analyze if it's ok in prod or should be removed.
-                    .frameOptions()
-                    .disable()
-                    .and()
+//                .headers() // TODO This is for h2-console. Analyze if it's ok in prod or should be removed.
+//                    .frameOptions()
+//                    .disable()
+//                    .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
@@ -110,9 +110,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         "/movies-lists/**",
+                        "/auth/**",
+                        "/oauth2/**",
+                        "/login/**",
+                        "/logout/**",
                         "/h2-console/**") // TODO Remove open access to H2 Console
-                        .permitAll()
-                    .antMatchers("/auth/**", "/oauth2/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
@@ -123,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .authorizationRequestRepository(cookieAuthorizationRequestRepository())
                         .and()
                     .redirectionEndpoint()
-                        .baseUri("/oauth2/callback/*")
+                        .baseUri("/login/oauth2/code/*")
                         .and()
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService)
