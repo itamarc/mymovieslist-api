@@ -82,10 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                     .and()
-//                .headers() // TODO This is for h2-console. Analyze if it's ok in prod or should be removed.
-//                    .frameOptions()
-//                    .disable()
-//                    .and()
+                .headers() // TODO This is for h2-console. Analyze if it's ok in prod or should be removed.
+                    .frameOptions()
+                    .disable()
+                    .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
