@@ -2,6 +2,7 @@ package io.itamarc.mymovieslistapi.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -15,6 +16,7 @@ public class Movie extends BaseEntity {
     @Column(name = "title")
     private String title;
 
+    @Lob
     @Column(name = "description")
     private String description;
 

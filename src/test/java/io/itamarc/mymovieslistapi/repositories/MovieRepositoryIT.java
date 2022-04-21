@@ -22,8 +22,8 @@ public class MovieRepositoryIT {
 
     @Test
     void findByTitle() {
-        Optional<Movie> movieOptional = movieRepository.findByTitle("The Matrix");
+        Optional<Movie> movieOptional = movieRepository.findByTitle("Death on the Nile");
 
-        assertEquals("The Matrix", movieOptional.get().getTitle());
+        assertEquals("Death on the Nile", movieOptional.get().getTitle());
     }
 }

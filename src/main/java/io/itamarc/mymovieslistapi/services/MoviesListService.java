@@ -8,4 +8,6 @@ public interface MoviesListService {
     public Page<MoviesListPayload> getMoviesLists(int page);
 
     public MoviesListPayload findById(Long id);
+
+    MoviesListPayload newMoviesList(MoviesListPayload moviesList);
 }

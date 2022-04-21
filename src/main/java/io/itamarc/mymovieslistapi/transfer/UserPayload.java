@@ -27,6 +27,9 @@ public class UserPayload {
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
     private String imageUrl;
 
+    @JsonView(value = { UserViews.UserBasic.class })
+    private Boolean emailVerified;
+
     @JsonView(value = { UserViews.UserBasic.class, MoviesListViews.MoviesListBasic.class })
     private LocalDateTime registered;
 

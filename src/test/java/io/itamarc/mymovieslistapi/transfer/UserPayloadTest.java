@@ -111,14 +111,15 @@ public class UserPayloadTest {
                 .registered(LocalDateTime.of(2022, 3, 1, 12, 0, 0))
                 .provider(AuthProvider.google)
                 .providerId("providerId")
+                .emailVerified(true)
                 .build();
 
-        assertEquals("UserPayload(id=null, name=name, email=email, password=password, imageUrl=imageUrl, registered=2022-03-01T12:00, provider=google, providerId=providerId, moviesLists=[])", userPayload.toString());
+        assertEquals("UserPayload(id=null, name=name, email=email, password=password, imageUrl=imageUrl, emailVerified=true, registered=2022-03-01T12:00, provider=google, providerId=providerId, moviesLists=[])", userPayload.toString());
     }
 
     @Test
     void gettersAndSetters() {
-        UserPayload userPayload = new UserPayload(null, null, null, null, null, null, null, null, null);
+        UserPayload userPayload = UserPayload.builder().build();
         userPayload.setId(1L);
         userPayload.setName("name");
         userPayload.setEmail("email");

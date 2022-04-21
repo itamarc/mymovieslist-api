@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import io.itamarc.mymovieslistapi.repositories.MovieRankRepository;
+import io.itamarc.mymovieslistapi.repositories.MovieRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,12 @@ public class MoviesListServiceImplTest {
     @Mock
     MoviesListRepository moviesListRepository;
 
+    @Mock
+    MovieRankRepository movieRankRepository;
+
+    @Mock
+    MovieRepository movieRepository;
+
     AutoCloseable closeable;
 
     MoviesList moviesList;
@@ -45,7 +53,7 @@ public class MoviesListServiceImplTest {
     @BeforeEach
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        moviesListService = new MoviesListServiceImpl(moviesListRepository);
+        moviesListService = new MoviesListServiceImpl(moviesListRepository, movieRankRepository, movieRepository);
 
         moviesList = new MoviesList();
         moviesList.setId(1L);

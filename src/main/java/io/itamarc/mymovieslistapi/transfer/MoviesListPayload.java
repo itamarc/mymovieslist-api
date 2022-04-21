@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = { "user", "movies" })
 @Getter
 @Setter
 @NoArgsConstructor
