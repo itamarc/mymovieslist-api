@@ -1,6 +1,7 @@
 package io.itamarc.mymovieslistapi.security;
 
 import io.itamarc.mymovieslistapi.config.AppProperties;
+import io.itamarc.mymovieslistapi.exception.OAuth2AuthenticationProcessingException;
 import io.itamarc.mymovieslistapi.model.User;
 import io.itamarc.mymovieslistapi.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -44,8 +45,7 @@ public class TokenProvider {
             if (optionalUser.isPresent()) {
                 userPrincipal = UserPrincipal.create(optionalUser.get(), oidcUser.getAttributes());
             } else {
-                userPrincipal = new UserPrincipal(null, oidcUser.getEmail(), null, oidcUser.getAuthorities());
-                userPrincipal.setAttributes(oidcUser.getAttributes());
+                throw new OAuth2AuthenticationProcessingException("No registered user found with e-mail '" + oidcUser.getEmail() + "'.");
             }
         } else {
             log.debug("TokenProvider: UserPrincipal received");
