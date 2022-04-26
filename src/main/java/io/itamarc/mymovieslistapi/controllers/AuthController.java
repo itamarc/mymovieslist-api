@@ -24,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/auth")
@@ -71,13 +72,15 @@ public class AuthController {
             .email(signUpRequest.getEmail())
             .password(passwordEncoder.encode(signUpRequest.getPassword()))
             .provider(AuthProvider.local)
+            .registered(LocalDateTime.now())
+            .emailVerified(false)
             .build();
 
-        UserPayload result = userService.save(user);
+        UserPayload savedUser = userService.save(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")
-                .buildAndExpand(result.getId()).toUri();
+                .buildAndExpand(savedUser.getId()).toUri();
 
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "User registered successfully!"));

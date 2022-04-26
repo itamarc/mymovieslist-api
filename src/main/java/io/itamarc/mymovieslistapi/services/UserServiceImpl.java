@@ -1,8 +1,10 @@
 package io.itamarc.mymovieslistapi.services;
 
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
+import io.itamarc.mymovieslistapi.exception.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import io.itamarc.mymovieslistapi.model.User;
@@ -41,6 +43,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserPayload save(UserPayload user) {
+        Optional<User> userCheck = userRepository.findByEmail(user.getEmail());
+        if (userCheck.isPresent()) {
+            throw new BadRequestException("User already registered with e-mail '" + user.getEmail() + "'.");
+        }
         User userSaved = userRepository.save(UserConverter.userPayloadToUser(user));
         return UserConverter.userToUserPayload(userSaved);
     }
