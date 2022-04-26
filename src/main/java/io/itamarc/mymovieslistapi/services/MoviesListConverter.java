@@ -25,6 +25,7 @@ public class MoviesListConverter {
                 .created(moviesList.getCreated())
                 .updated(moviesList.getUpdated())
                 .user(userPayload)
+                .moviesCount(moviesList.getMoviesCount())
                 .movies(moviesToMoviesPayload(moviesList.getMovieRanks()))
                 .build();
     }

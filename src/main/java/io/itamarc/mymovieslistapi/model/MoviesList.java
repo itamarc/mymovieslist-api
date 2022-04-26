@@ -30,6 +30,11 @@ public class MoviesList extends BaseEntity {
     @ManyToMany(mappedBy = "moviesLists", fetch = FetchType.LAZY)
     private Set<MovieRank> movieRanks = new HashSet<>();
 
+    @Transient
+    public int getMoviesCount() {
+        return movieRanks.size();
+    }
+
     public void addMovieRank(MovieRank movieRank) {
         this.movieRanks.add(movieRank);
         if (!movieRank.getMoviesLists().contains(this)) {

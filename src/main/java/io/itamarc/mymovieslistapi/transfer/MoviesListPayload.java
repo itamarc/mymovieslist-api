@@ -41,6 +41,9 @@ public class MoviesListPayload {
     @Builder.Default
     private Set<MoviePayload> movies = new HashSet<>();
 
+    @JsonView(value = { MoviesListViews.MoviesListBasic.class })
+    private int moviesCount;
+
     @Override
     public String toString() {
         return "MoviesListPayload [id=" + id
@@ -48,6 +51,7 @@ public class MoviesListPayload {
                 + ", created=" + created
                 + ", updated=" + updated
                 + ", user.id=" + user.getId()
+                + ", moviesCount=" + moviesCount
                 + ", movies=" + movies + "]";
     }
 }

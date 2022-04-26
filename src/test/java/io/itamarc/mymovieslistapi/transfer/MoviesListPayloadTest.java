@@ -37,7 +37,7 @@ public class MoviesListPayloadTest {
                 .updated(LocalDateTime.of(2022, 3, 2, 12, 0, 0))
                 .user(userPayload)
                 .build();
-        moviesListPayload1.canEqual(new MoviesListPayload(null, null, null, null, userPayload, null));
+        moviesListPayload1.canEqual(MoviesListPayload.builder().user(userPayload).build());
     }
 
     @Test
@@ -135,6 +135,7 @@ public class MoviesListPayloadTest {
                 .updated(LocalDateTime.of(2022, 3, 2, 12, 0, 0))
                 .user(userPayload)
                 .build();
-        assertEquals("MoviesListPayload [id=1, title=title, created=2022-03-01T12:00, updated=2022-03-02T12:00, user.id=1, movies=[]]", moviesListPayload.toString());
+        assertEquals("MoviesListPayload [id=1, title=title, created=2022-03-01T12:00, updated=2022-03-02T12:00, user.id=1, moviesCount=0, movies=[]]",
+                moviesListPayload.toString());
     }
 }
