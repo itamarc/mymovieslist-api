@@ -61,12 +61,13 @@ public class MoviesListServiceImpl implements MoviesListService {
             MovieRank movieRank = MoviesListConverter.moviePayloadToMovieRank(moviePayload);
             Movie savedMovie = movieRepository.save(movieRank.getMovie());
             movieRank.setMovie(savedMovie);
-            movieRank.getMoviesLists().add(moviesList);
+            movieRank.getMoviesLists().add(savedMoviesList);
+            movieRank.setUser(savedMoviesList.getUser());
             MovieRank savedMovieRank = movieRankRepository.save(movieRank);
             movieRanks.add(savedMovieRank);
         }
         savedMoviesList.setMovieRanks(movieRanks);
         moviesListRepository.save(savedMoviesList);
-        return MoviesListConverter.moviesListToMoviesListPayload(moviesList);
+        return MoviesListConverter.moviesListToMoviesListPayload(savedMoviesList);
     }
 }

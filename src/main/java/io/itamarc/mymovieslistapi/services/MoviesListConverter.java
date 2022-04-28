@@ -1,13 +1,12 @@
 package io.itamarc.mymovieslistapi.services;
 
-import io.itamarc.mymovieslistapi.model.Movie;
-import io.itamarc.mymovieslistapi.model.MovieRank;
-import io.itamarc.mymovieslistapi.model.MoviesList;
-import io.itamarc.mymovieslistapi.model.User;
+import io.itamarc.mymovieslistapi.model.*;
+import io.itamarc.mymovieslistapi.transfer.MovieGenrePayload;
 import io.itamarc.mymovieslistapi.transfer.MoviePayload;
 import io.itamarc.mymovieslistapi.transfer.MoviesListPayload;
 import io.itamarc.mymovieslistapi.transfer.UserPayload;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -26,11 +25,11 @@ public class MoviesListConverter {
                 .updated(moviesList.getUpdated())
                 .user(userPayload)
                 .moviesCount(moviesList.getMoviesCount())
-                .movies(moviesToMoviesPayload(moviesList.getMovieRanks()))
+                .movies(movieRanksToMoviePayloads(moviesList.getMovieRanks()))
                 .build();
     }
 
-    public static Set<MoviePayload> moviesToMoviesPayload(Set<MovieRank> movieRanks) {
+    public static Set<MoviePayload> movieRanksToMoviePayloads(Set<MovieRank> movieRanks) {
         Set<MoviePayload> movies = new LinkedHashSet<>();
         movieRanks.forEach(movieRank -> movies.add(movieRankToMoviePayload(movieRank)));
         return movies;
@@ -43,9 +42,36 @@ public class MoviesListConverter {
                 .description(movieRank.getMovie().getDescription())
                 .year(movieRank.getMovie().getYear())
                 .imageUrl(movieRank.getMovie().getImageUrl())
+                .genres(movieGenresToMovieGenrePayloads(movieRank.getMovie().getGenres()))
                 .rank(movieRank.getRank())
                 .watched(movieRank.isWatched())
                 .build();
+    }
+
+    public static Set<MovieGenrePayload> movieGenresToMovieGenrePayloads(Set<MovieGenre> genres) {
+        Set<MovieGenrePayload> movieGenrePayloads = new HashSet<>();
+        genres.forEach(movieGenre -> movieGenrePayloads.add(
+                MovieGenrePayload.builder()
+                        .id(movieGenre.getId())
+                        .name(movieGenre.getName())
+                        .build()
+            )
+        );
+        return movieGenrePayloads;
+    }
+
+    public static Set<MovieGenre> movieGenrePayloadsToMovieGenres(Set<MovieGenrePayload> genrePayloads, Movie movie) {
+        Set<MovieGenre> movieGenres = new HashSet<>();
+        genrePayloads.forEach(genrePayload -> {
+            MovieGenre movieGenre = movieGenrePayloadToMovieGenre(genrePayload);
+            movieGenre.getMovies().add(movie);
+            movieGenres.add(movieGenre);
+        });
+        return movieGenres;
+    }
+
+    public static MovieGenre movieGenrePayloadToMovieGenre(MovieGenrePayload genrePayload) {
+        return new MovieGenre(genrePayload.getId(), genrePayload.getName());
     }
 
     public static MovieRank moviePayloadToMovieRank(MoviePayload moviePayload) {
@@ -55,6 +81,7 @@ public class MoviesListConverter {
         movie.setDescription(moviePayload.getDescription());
         movie.setImageUrl(moviePayload.getImageUrl());
         movie.setYear(moviePayload.getYear());
+        movie.setGenres(movieGenrePayloadsToMovieGenres(moviePayload.getGenres(), movie));
 
         MovieRank movieRank = new MovieRank();
         movieRank.setMovie(movie);
